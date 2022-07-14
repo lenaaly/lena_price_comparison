@@ -10,12 +10,13 @@ name_list=[]
 def not_blank(question):
     response = input(question)
 
-
-    if response == "xxx":
-        return response
-    else:
+    while response != "xxx":
         name_list.append(response)
-        response = input(question)
+
+        if response == "xxx":
+            return response
+        else:
+            response = input(question)
 
 
 not_blank("Item name: ")
