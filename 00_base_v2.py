@@ -1,4 +1,5 @@
-'''
+"""
+Lena Aly
 
 This is the base component - the program takes the users budget
 and recommends which items are the best value for money, based on
@@ -8,7 +9,7 @@ recommended item within the users budget
 base v1 - skeleton of program, setting up functions
 base v2 - setting up functions: not blank component and item name component
 
-'''
+"""
 
 # setting up functions*****
 
@@ -36,16 +37,16 @@ def item_name(question):
     response = input(question)
 
     while response != "xxx":
+        response = input(question)
         if response == "xxx":
             return response
 
         elif response == "":
             not_blank(response, "This cant be blank - enter the items name")
-            response = input(question)
 
         else:
             name_list.append(response)
-            response = input(question)
+
 
 # item price function, takes item price and appends to a list
 
