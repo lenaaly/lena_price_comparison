@@ -16,40 +16,61 @@ base v4 - major changes to make code more flexible as explained on slide 33 of t
 
 # setting up functions****
 
-# number checker function, checks for valid numbers and invalid (letters / symbols / blank)
-def num_checker(question, error_msg):
-    valid = False
-    try:
-        if float(question) <= 0:
-            valid = False
-            print(error_msg)
-        else:
-            valid = True
-    except ValueError:
-        valid = False
-        print(error_msg)
-    return valid
-
 # ask user for string function (used in item name)
+def ask_for_string(question, error_msg):
+    valid = False
+
+    while valid is False:
+        response = input(question)
+        if response != "":
+            valid = True
+        # if the input is blank then show error message and return as
+        # false so calling function can act on it (will ask again)
+        else:
+            print(error_msg)
+            valid = False
+    return response
+
 
 # ask user for float function (used in budget, item price and item weight)
+def ask_for_float(question, error_msg):
+    valid = False
+
+    while valid is False:
+        response = input(question)
+        try:
+            if float(response) <= 0:
+                valid = False
+                print(error_msg)
+            else:
+                valid = True
+        except ValueError:
+            valid = False
+            print(error_msg)
+    return response
 
 
 # MAIN ROUTINE*****
 
+# set up lists
+item_info = []
+
 # ask user for their budget once
+# budget = ask_for_float("Enter your budget: ", "This value is invalid - Enter a number over 0")
+keepAskingForItems = True
 
 # ask the user for the item name, price and weight
 while keepAskingForItems:
-    item_name = ask_for_string("Enter item name: ", "Error")
-    item_price = ask_for_string("Enter item name: ", "Error")
-    item_weight = ask_for_string("Enter item name: ", "Error")
-    item_unit_price = item_weight/item_price
-    iteminfo.append([item_name, item_price, item_weight, item_unit_price])
-    moreitemstoadd = ask_for_string("More items to add yes or no: ", "Error")
+    item_name = ask_for_string("Enter item name: ", "This cannot be blank - Please enter the Items name.")
+    item_price = ask_for_float("Enter item price: ",
+                               "This value is invalid - In numbers over 0, enter the Items weight.")
+    item_weight = ask_for_float("Enter item weight: ",
+                                "This value is invalid - In numbers over 0, enter the Items weight.")
+    # item_unit_price = item_weight / item_price
+    item_info.append([item_name, item_price, item_weight])
+    ask_more_items = ask_for_string("Do you have any more items?: ", "This value is invalid - Enter yes / no")
 
-
-    print(item_info)
+print(item_info)
 
 # calculate unit price
 # append to lists
