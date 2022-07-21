@@ -7,18 +7,15 @@ yes / no - after each item name is added, asks if the user has any more items an
 
 
 def yes_no_items(question, error_msg):
-
     valid = False
     while not valid:
         response = input(question)
         if response == "yes" or response == "y":
-            valid = True
+            valid = False
         elif response == "no" or response == "n":
             valid = True
         else:
-            valid == False
             print(error_msg)
-
 
     return response
 
