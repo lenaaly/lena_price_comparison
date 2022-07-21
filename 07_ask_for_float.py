@@ -23,4 +23,4 @@ def ask_for_float(question, error_msg):
     return response
 
 
-item_weight = ask_for_float("Enter item weight: ", "Error")
+item_weight = ask_for_float("Enter item weight: ", "This value is invalid - In numbers over 0, enter the Items weight.")

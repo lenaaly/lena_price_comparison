@@ -63,3 +63,6 @@ def item_name(question):
 # asking the user the names of their items
 item_name("Item name: ")
 print(name_list)
+# asking the user the price of their item
+
+# asking the user the weight of their item

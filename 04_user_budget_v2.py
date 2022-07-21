@@ -13,6 +13,6 @@ def user_budget(question):
 
     while validBudget is False:
         budget = input(question)
-        validBudget = num_checker(budget, "Error - Please enter a number above 0")
+        validBudget = num_checker(budget, "Error - Please enter a budget above 0")
         if validBudget:
             return budget

@@ -8,6 +8,7 @@ recommended item within the users budget
 
 base v1 - skeleton of program, setting up functions
 base v2 - setting up functions: not blank component and item name component
+base v3 - setting up functions: num checker, budget and item price
 
 """
 
@@ -49,21 +50,30 @@ def not_blank(question, error_msg):
 # item name function, takes valid items name and appends to a list
 # Get the item name from the user and check if blank, and return the result
 def item_name(question):
-    response = input(question)
+    name_response = input(question)
 
-    while response != "xxx":
-        response = input(question)
-        if response == "xxx":
-            return response
+    while name_response != "xxx":
+        name_response = input(question)
+        if name_response == "xxx":
+            return name_response
 
-        elif response == "":
-            not_blank(response, "This cant be blank - enter the items name")
+        elif name_response == "":
+            not_blank(name_response, "This cant be blank - enter the items name")
 
         else:
-            name_list.append(response)
+            name_list.append(name_response)
 
 
 # item price function, takes item price and appends to a list
+def ask_price(question):
+    # will call number checker by using validPrice
+    validPrice = False
+
+    while validPrice is False:
+        item_price = input(question)
+        validPrice = num_checker(item_price, "Error - Please enter a price above 0")
+        if validPrice:
+            return item_price
 
 # item weight function, takes item weight and appends to a list
 
@@ -90,5 +100,6 @@ item_name("Item name: ")
 print(name_list)
 
 # asking the user the price of their item
+ask_price("Item price: ")
 
 # asking the user the weight of their item

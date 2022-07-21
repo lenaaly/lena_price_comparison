@@ -23,10 +23,3 @@ def num_checker(question, error_msg):
         except ValueError:
             print(error_msg)
 
-
-def user_budget(question):
-    budget = input(question)
-
-    num_checker(budget, "Enter a number over 0")
-
-user_budget("What is your budget?: ")
