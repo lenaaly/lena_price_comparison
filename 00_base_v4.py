@@ -50,6 +50,21 @@ def ask_for_float(question, error_msg):
     return response
 
 
+# asking user if they have any more items, yes / no function
+def yes_no_items(question, error_msg):
+    valid = False
+    while not valid:
+        response = input(question)
+        if response == "yes" or response == "y":
+            valid = False
+        elif response == "no" or response == "n":
+            valid = True
+        else:
+            print(error_msg)
+
+    return response
+
+
 # MAIN ROUTINE*****
 
 # set up lists
@@ -68,7 +83,9 @@ while keepAskingForItems:
                                 "This value is invalid - In numbers over 0, enter the Items weight.")
     # item_unit_price = item_weight / item_price
     item_info.append([item_name, item_price, item_weight])
-    ask_more_items = ask_for_string("Do you have any more items?: ", "This value is invalid - Enter yes / no")
+    print()
+    ask_more_items = yes_no_items("Do you have any more items?: ", "This value is invalid - Enter yes / no")
+    print()
 
 print(item_info)
 
