@@ -53,16 +53,20 @@ def ask_for_float(question, error_msg):
 # asking user if they have any more items, yes / no function
 def yes_no_items(question, error_msg):
     valid = False
+    # keepGoing set to True so that when response is no, the program will stop asking item questions instead of looping
+    keepGoing = True
     while not valid:
         response = input(question)
+
         if response == "yes" or response == "y":
-            valid = False
+            valid = True
         elif response == "no" or response == "n":
             valid = True
+            keepGoing = False
         else:
             print(error_msg)
 
-    return response
+    return keepGoing
 
 
 # MAIN ROUTINE*****
@@ -85,6 +89,9 @@ while keepAskingForItems:
     item_info.append([item_name, item_price, item_weight])
     print()
     ask_more_items = yes_no_items("Do you have any more items?: ", "This value is invalid - Enter yes / no")
+    if ask_more_items is False:
+        keepAskingForItems = False
+
     print()
 
 print(item_info)
