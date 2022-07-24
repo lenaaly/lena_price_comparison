@@ -85,6 +85,7 @@ def unit_price(item_price, item_converted_weight):
     unit_calculation = float(item_price / item_converted_weight)
     return unit_calculation
 
+
 # best item selector
 def best_item_selector(items_list, budget):
     best_item_frame = pd.DataFrame(items_list)
@@ -95,10 +96,14 @@ def best_item_selector(items_list, budget):
     best_items_frame_filtered = best_item_frame.query("`Price` <= @budget")
     best_items_frame_sorted = best_item_frame.sort_values(by=['Unit price (per kg)'])
     best_items_frame_filtered_sorted = best_items_frame_filtered.sort_values(by=['Unit price (per kg)'])
-
-    best_item = best_items_frame_filtered_sorted.iloc[0][0]
+    #check if the list is empty before getting the value, otherwise if list is empty we get an error
+    if(best_items_frame_filtered_sorted.empty):
+        best_item =0
+    else:
+        best_item = best_items_frame_filtered_sorted.iloc[0][0]
 
     return best_item, best_items_frame_sorted
+
 
 # define test data to make it easier to test
 test_items = [["salt crackers", 2.00, 0.185, 10.81], ["griffins snax", 2.50, 0.25, 10],
@@ -117,8 +122,8 @@ keepAskingForItems = True
 while keepAskingForItems:
     # asking for item name, calling ask for string function
     item_name = ask_for_string("Enter item name: ", "This value is invalid - Please enter the Items name.")
-    #if item name is testdata then run test data and go out of while loop
-    if(item_name == "testdata"):
+    # if item name is testdata then run test data and go out of while loop
+    if (item_name == "testdata"):
         keepAskingForItems = False
         item_info = test_items
         break
@@ -147,15 +152,19 @@ while keepAskingForItems:
     print()
 
 print("----------")
-# adding list to the padanas
+# adding list to the pandas
 item_frame = pd.DataFrame(item_info)
 # adding column headers to the panda
 headers = ["Item name", "Price", "Weight (kg)", "Unit price (per kg)"]
 item_frame.columns = headers
-#print(item_frame)
+# print(item_frame)
 
 best_recommendation = best_item_selector(item_frame, budget)
 print(best_recommendation[1])
 print("")
 print("Your budget is ${:.2f}".format(budget))
-print("The item recommended based on your budget is", best_recommendation[0])
+best_recommendation_item = best_recommendation[0]
+if(best_recommendation_item == 0):
+    print("You dont have enough money in your budget")
+else:
+    print("The item recommended based on your budget is", best_recommendation[0])
