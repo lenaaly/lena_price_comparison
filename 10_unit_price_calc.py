@@ -5,6 +5,7 @@ unit price calculation - takes the item price and item weight and calculates the
 
 """
 
+
 # ask for float
 def ask_for_float(question, error_msg):
     valid = False
@@ -22,10 +23,12 @@ def ask_for_float(question, error_msg):
             print(error_msg)
     return response
 
+
 # converts item weight in g to kg
 def weight_kg(item_weight_kg):
     item_weight_kg = float(item_weight / 1000)
     return item_weight_kg
+
 
 # takes item price and item weight in kg and calculates unit price
 def unit_price(item_price, item_converted_weight):

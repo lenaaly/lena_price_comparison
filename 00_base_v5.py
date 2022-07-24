@@ -10,7 +10,7 @@ base v1 - skeleton of program, setting up functions
 base v2 - setting up functions: not blank component and item name component
 base v3 - setting up functions: num checker, budget and item price
 base v4 - major changes to make code more flexible as explained on slide 33 of testing powerpoint
-base v5 - final base, adding unit calculations and printing output of recommendations for user
+base v5 - adding unit calculations and printing output of recommendations for user
 
 """
 
@@ -60,7 +60,7 @@ def yes_no_items(question, error_msg):
     # keepGoing set to True so that when response is no, the program will stop asking item questions instead of looping
     keepGoing = True
     while not valid:
-        response = input(question)
+        response = input(question).lower()
 
         if response == "yes" or response == "y":
             valid = True
@@ -72,9 +72,18 @@ def yes_no_items(question, error_msg):
 
     return keepGoing
 
+
 # converting weight from g to kg function
+def weight_kg(item_weight_kg):
+    item_weight_kg = float(item_weight / 1000)
+    return item_weight_kg
+
 
 # calculating the unit price function
+def unit_price(item_price, item_converted_weight):
+    unit_calculation = float(item_price / item_converted_weight)
+    return unit_calculation
+
 
 # ************* MAIN ROUTINE ************
 
@@ -88,7 +97,7 @@ keepAskingForItems = True
 # ask the user for the item name, price and weight
 while keepAskingForItems:
     # asking for item name, calling ask for string function
-    item_name = ask_for_string("Enter item name: ", "This cannot be blank - Please enter the Items name.")
+    item_name = ask_for_string("Enter item name: ", "This value is invalid - Please enter the Items name.")
 
     # asking for items price, calling ask for float function
     item_price = ask_for_float("Enter item price: ",
@@ -98,20 +107,21 @@ while keepAskingForItems:
     item_weight = ask_for_float("Enter item weight in grams: ",
                                 "This value is invalid - In numbers over 0, enter the Items weight in grams.")
 
+    # item weight conversion from g to kg
+    item_converted_weight = weight_kg(item_weight)
+
     # call item unit price calculation
-    item_unit_price = item_weight / item_price
+    calculated_unit_price = unit_price(item_price, item_converted_weight)
 
     # appending items into lists
-    item_info.append([item_name, item_price, item_weight])
+    item_info.append([item_name, item_price, item_converted_weight, "{:.2f}".format(calculated_unit_price)])
     print()
 
     # ask if there are any more items
-    ask_more_items = yes_no_items("Do you have any more items?: ", "This valueis invalid - Enter yes / no")
+    ask_more_items = yes_no_items("Do you have any more items?: ", "This value is invalid - Enter yes / no")
     if ask_more_items is False:
         keepAskingForItems = False
     print()
 
-# print lists
+# print lists / information
 print(item_info)
-
-
