@@ -75,7 +75,7 @@ def yes_no_items(question, error_msg):
 item_info = []
 
 # ask user for their budget once
-# budget = ask_for_float("Enter your budget: ", "This value is invalid - Enter a number over 0")
+budget = ask_for_float("Enter your budget: ", "This value is invalid - Enter a number over 0")
 keepAskingForItems = True
 
 # ask the user for the item name, price and weight
@@ -85,7 +85,7 @@ while keepAskingForItems:
                                "This value is invalid - In numbers over 0, enter the Items weight.")
     item_weight = ask_for_float("Enter item weight: ",
                                 "This value is invalid - In numbers over 0, enter the Items weight.")
-    # item_unit_price = item_weight / item_price
+    item_unit_price = item_weight / item_price
     item_info.append([item_name, item_price, item_weight])
     print()
     ask_more_items = yes_no_items("Do you have any more items?: ", "This value is invalid - Enter yes / no")
