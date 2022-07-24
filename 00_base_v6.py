@@ -85,24 +85,29 @@ def unit_price(item_price, item_converted_weight):
     unit_calculation = float(item_price / item_converted_weight)
     return unit_calculation
 
+# best item selector
+def best_item_selector(items_list, budget):
+    best_item_frame = pd.DataFrame(items_list)
+    # adding column headers to the panda
+    best_item_frame.columns = headers
+
+    # filter all objects above my budget
+    best_items_frame_filtered = best_item_frame.query("`Price` <= @budget")
+    best_items_frame_sorted = best_item_frame.sort_values(by=['Unit price (per kg)'])
+    best_items_frame_filtered_sorted = best_items_frame_filtered.sort_values(by=['Unit price (per kg)'])
+
+    best_item = best_items_frame_filtered_sorted.iloc[0][0]
+
+    return best_item, best_items_frame_sorted
+
+# define test data to make it easier to test
+test_items = [["salt crackers", 2.00, 0.185, 10.81], ["griffins snax", 2.50, 0.25, 10],
+              ["pizza shapes", 3.30, 0.19, 17.37]]
 
 # ************* MAIN ROUTINE ************
 
-# set up lists
-item_info = []
-all_item_names = []
-all_item_prices = []
-all_item_weights = []
-all_unit_prices = []
-
-# set up dictionaries
-
-items_table = {
-    "Item name": all_item_names,
-    "Price": all_item_prices,
-    "Weight (kg)": all_item_weights,
-    "Unit price (per kg)": all_unit_prices
-}
+# set up list
+item_info = []  # list to hold all items in it
 
 # ask user for their budget once, calling ask for float function
 budget = ask_for_float("Enter your budget: ", "This value is invalid - Enter a number over 0")
@@ -112,12 +117,14 @@ keepAskingForItems = True
 while keepAskingForItems:
     # asking for item name, calling ask for string function
     item_name = ask_for_string("Enter item name: ", "This value is invalid - Please enter the Items name.")
-    all_item_names.append(item_name)
-
+    #if item name is testdata then run test data and go out of while loop
+    if(item_name == "testdata"):
+        keepAskingForItems = False
+        item_info = test_items
+        break
     # asking for items price, calling ask for float function
     item_price = ask_for_float("Enter item price: ",
                                "This value is invalid - In numbers over 0, enter the Items price.")
-    all_item_prices.append(item_price)
 
     # asking for items weight, calling ask for float function
     item_weight = ask_for_float("Enter item weight in grams: ",
@@ -125,23 +132,30 @@ while keepAskingForItems:
 
     # item weight conversion from g to kg
     item_converted_weight = weight_kg(item_weight)
-    all_item_weights.append(item_converted_weight)
 
     # call item unit price calculation
     calculated_unit_price = unit_price(item_price, item_converted_weight)
-    all_unit_prices.append("{:.2f}".format(calculated_unit_price))
 
-    # appending items into lists
-    # item_info.append([all_item_names, item_price, item_converted_weight, "{:.2f}".format(calculated_unit_price)])
-    # print()
+    # appending item information to the list
+    item_info.append([item_name, item_price, item_converted_weight, "{:.2f}".format(calculated_unit_price)])
 
     # ask if there are any more items
     ask_more_items = yes_no_items("Do you have any more items?: ", "This value is invalid - Enter yes / no")
     if ask_more_items is False:
         keepAskingForItems = False
+    # adding a space/ new line
     print()
 
-# print information
-items_frame = pd.DataFrame(items_table)
-print(items_frame)
-print(item_info)
+print("----------")
+# adding list to the padanas
+item_frame = pd.DataFrame(item_info)
+# adding column headers to the panda
+headers = ["Item name", "Price", "Weight (kg)", "Unit price (per kg)"]
+item_frame.columns = headers
+#print(item_frame)
+
+best_recommendation = best_item_selector(item_frame, budget)
+print(best_recommendation[1])
+print("")
+print("Your budget is ${:.2f}".format(budget))
+print("The item recommended based on your budget is", best_recommendation[0])
